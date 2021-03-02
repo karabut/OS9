@@ -1,0 +1,27 @@
+#include <sys/types.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#define COMMAXLEN 30
+#define FAIL -1
+#define CHILDPROCESS 0
+
+ main() {
+     int waitConst = -1;
+     pid_t process = fork();
+     if (process == FAIL) {
+         perror("Error in fork()");
+     }
+
+     if (process != CHILDPROCESS) {
+         wait(&waitConst);
+         printf("Parent process is on\n");
+     } else {
+         char command[COMMAXLEN];
+         strcpy(command, "cat text.txt");
+         if (system(command) == FAIL) {
+             perror("Error in system()");
+         }
+     }
+ }
