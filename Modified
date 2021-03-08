@@ -15,7 +15,15 @@
      }
 
      if (process != CHILDPROCESS) {
-         wait(&waitConst);
+         int check = wait(&waitConst);
+         if(check == FAIL){
+             perror("Error in wait");
+         }
+         int exitCode = WEXITSTATUS(waitConst);
+         if(exitCode != 0){
+             printf("Child process ended unsuccessfully \n");
+         }
+         printf("return code оf child = %d \n", exitCode);
          printf("Parent process is on\n");
      } else {
          char command[COMMAXLEN];
